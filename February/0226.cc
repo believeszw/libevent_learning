@@ -10,18 +10,18 @@
 /* For socket functions */
 #include <sys/socket.h>
 /* For gethostbyname */
-#include <netdb.h>
-#include <unistd.h>
-#include <string>
 #include <cstdio>
+#include <netdb.h>
+#include <string>
+#include <unistd.h>
 
-TEST(Feb0226, get_baidu) {
+// Example: A simple blocking HTTP client
+TEST(Feb0226, get_google) {
 
-  const char query[] =
-      "GET / HTTP/1.0\r\n"
-      "Host: www.baidu.com\r\n"
-      "\r\n";
-  const char hostname[] = "www.baidu.com";
+  const char query[] = "GET / HTTP/1.0\r\n"
+                       "Host: www.google.com\r\n"
+                       "\r\n";
+  const char hostname[] = "www.google.com";
   struct sockaddr_in sin;
   struct hostent *h;
   const char *cp;
@@ -51,8 +51,8 @@ TEST(Feb0226, get_baidu) {
   /* Connect to the remote host. */
   sin.sin_family = AF_INET;
   sin.sin_port = htons(80);
-  sin.sin_addr = *(struct in_addr *) h->h_addr;
-  if (connect(fd, (struct sockaddr *) &sin, sizeof(sin))) {
+  sin.sin_addr = *(struct in_addr *)h->h_addr;
+  if (connect(fd, (struct sockaddr *)&sin, sizeof(sin))) {
     perror("connect");
     close(fd);
     return;
